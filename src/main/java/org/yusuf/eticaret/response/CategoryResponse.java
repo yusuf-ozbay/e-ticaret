@@ -1,10 +1,10 @@
-package org.yusuf.eticaret.entity;
+package org.yusuf.eticaret.response;
 
-import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.yusuf.eticaret.dto.ProductDto;
 
 import java.util.List;
 
@@ -12,19 +12,10 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity
-public class Category {
+public class CategoryResponse {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String name;
     private String description;
-
-    @OneToMany(mappedBy = "category",cascade = CascadeType.ALL)
-    private  List<Product> products;
-
-
-
-
+    private List<ProductDto> products;
 }

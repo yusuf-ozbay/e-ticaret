@@ -6,23 +6,29 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.List;
-
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-public class Basket {
+public class BasketProduct {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
-    private int status;
+    private long id;
+    private int count;
     private double totalPrice;
-    @OneToOne
-    @JoinColumn(name = "user_id")
-    private User user;
 
-    @OneToMany(mappedBy = "basket",cascade = CascadeType.ALL)
-    private List<BasketProduct> basketProducts;
+    @OneToOne
+    @JoinColumn(name = "product_id")
+    private Product product;
+
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "basket_id")
+    private Basket basket;
+
+
+    public BasketProduct(long id,int count){
+        this.id=id;
+        this.count=count;
+    }
 }

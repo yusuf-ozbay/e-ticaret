@@ -1,6 +1,5 @@
-package org.yusuf.eticaret.entity;
+package org.yusuf.eticaret.dto;
 
-import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -12,19 +11,9 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity
-public class Category {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+public class CategoryDto {
     private Long id;
     private String name;
     private String description;
-
-    @OneToMany(mappedBy = "category",cascade = CascadeType.ALL)
-    private  List<Product> products;
-
-
-
-
+    private List<ProductDto> products;
 }
