@@ -21,9 +21,9 @@ public class Product {
 
     //fetch = FetchType.EAGER =verileri nasıl getireceğini belirler EAGER ise ben veriyi çağırdığğımda getrir
     //cascade = CascadeType.ALL  burda urun ve kategori sınıflarında  all diyerek her iki tarafta da işlemlerin yapılmasını sağlar
+
     @ManyToOne(fetch = FetchType.EAGER ,cascade = CascadeType.ALL)
     @JoinColumn(name = "categoryId")
-
     private Category category;
 
 }

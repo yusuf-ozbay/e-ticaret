@@ -20,10 +20,11 @@ public class BasketDto {
     private Long id;
     private int status;
     private double totalPrice;
+    private int count;
 
     private long UserId;
 
     private List<BasketProductDto> basketProducts;
-    private int count;
+
 
 }

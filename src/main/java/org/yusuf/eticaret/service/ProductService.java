@@ -6,6 +6,7 @@ import org.yusuf.eticaret.dto.ProductDto;
 import org.yusuf.eticaret.entity.Category;
 import org.yusuf.eticaret.entity.Product;
 import org.yusuf.eticaret.repository.ProductRepository;
+import org.yusuf.eticaret.service.mapper.ProdactMapper;
 
 
 @Service
@@ -24,30 +25,11 @@ public class ProductService {
     }
 
     public ProductDto save(ProductDto productDto) {
-        Product product =toEntity(productDto);
+        Product product = ProdactMapper.toEntity(productDto);
         product = productRepository.save(product);
-        return toDto(product);
+        return ProdactMapper.toDto(product);
     }
 
-    public Product toEntity(ProductDto productDto) {
-        Product product = new Product();
-        product.setName(productDto.getName());
-        product.setDescription(productDto.getDescription());
-        product.setPrice(productDto.getPrice());
-        product.setCategory(categoryService.findById(productDto.getCategoryId()));
-        return product;
-    }
 
-    public ProductDto toDto(Product product){
-        ProductDto productDto =new ProductDto();
-        productDto.setId(product.getId());
-        productDto.setName(product.getName());
-        productDto.setDescription(product.getDescription());
-        productDto.setPrice(product.getPrice());
-        productDto.setCategoryId(product.getCategory().getId());
-
-        return productDto;
-
-    }
 
 }

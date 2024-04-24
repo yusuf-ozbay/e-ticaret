@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import org.yusuf.eticaret.dto.UserDto;
 import org.yusuf.eticaret.entity.User;
 import org.yusuf.eticaret.repository.UserRepository;
+import org.yusuf.eticaret.service.mapper.UserMapper;
 
 
 @Service
@@ -12,6 +13,8 @@ public class UserService {
 
     @Autowired
     UserRepository userRepository;
+
+
 
     public User findById(long id){
 
@@ -21,25 +24,10 @@ public class UserService {
 
 
     public UserDto save(UserDto userDto) {
-        User user=toEntity(userDto);
+        User user= UserMapper.toEntity(userDto);
         user=userRepository.save(user);
-        return toDto(user);
+        return UserMapper.toDto(user);
     }
 
-    public User toEntity(UserDto userDto) {
-        User user = new User();
-        user.setName(userDto.getName());
-        user.setSurname(userDto.getSurname());
-        return user;
-    }
-
-    public UserDto toDto(User user){
-        UserDto userDto=new UserDto();
-        userDto.setId(user.getId() );
-        userDto.setName(user.getName());
-        userDto.setSurname(user.getSurname());
-        return userDto;
-
-    }
 }
 
