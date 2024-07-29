@@ -15,5 +15,5 @@ public class ShopAdminRequest {
     private int phoneNumber;
     private String address;
     private String password;
-    private  String shopName;
+    private String shopName;
 }
