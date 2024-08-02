@@ -1,18 +1,19 @@
-package org.example.eticaret.dto;
+package org.example.eticaret.response;
 
 import lombok.*;
+import org.example.eticaret.dto.BasketItemDto;
 
 import java.util.List;
+
 @Builder
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class BasketDto {
-
+public class BasketResponse {
     private Long basketId;
     private double totalPrice;
     private int status;
-    private CustomerDto customerDto;
+    private Long customerId;
     private List<BasketItemDto> basketItemDtoList;
 }
