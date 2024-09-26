@@ -1,10 +1,6 @@
 package org.example.eticaret.request;
 
 import lombok.*;
-import org.example.eticaret.dto.BasketItemDto;
-import org.example.eticaret.dto.CustomerDto;
-
-import java.util.List;
 @Builder
 @Getter
 @Setter
