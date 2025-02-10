@@ -15,7 +15,7 @@ public class Basket {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long basketId;
+    private int basketId;
     private double totalPrice;
     private int status;
 

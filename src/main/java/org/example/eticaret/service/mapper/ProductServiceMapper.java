@@ -13,6 +13,7 @@ public class ProductServiceMapper {
                 .description(productDto.getDescription())
                 .price(productDto.getPrice())
                 .category(categoryService.getEntity(productDto.getCategoryId()))
+                .stock(productDto.getStock())
                 .build();
     }
 
