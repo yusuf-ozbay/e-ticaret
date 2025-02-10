@@ -5,7 +5,10 @@ import lombok.*;
 @Builder
 @Getter
 @Setter
-@NoArgsConstructor
 @AllArgsConstructor
 public class BasketItemDto {
+    private int basketItemId;
+    private double basketItemAmount;
+    private int count;
+    private final ProductDto product;
 }
