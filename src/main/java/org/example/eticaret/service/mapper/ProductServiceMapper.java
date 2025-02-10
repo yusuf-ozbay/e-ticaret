@@ -22,7 +22,7 @@ public class ProductServiceMapper {
                 .name(product.getName())
                 .description(product.getDescription())
                 .price(product.getPrice())
-                .categoryId(product.getCategory().getId())
+                .categoryId(product.getCategory().getCategoryId())
                 .build();
     }
 }
