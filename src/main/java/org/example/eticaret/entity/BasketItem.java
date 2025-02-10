@@ -12,7 +12,7 @@ import lombok.*;
 public class BasketItem {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long basketItemId;
+    private int basketItemId;
     private int count;
     private double basketItemTotalPrice;
 

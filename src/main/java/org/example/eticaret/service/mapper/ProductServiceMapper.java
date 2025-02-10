@@ -8,7 +8,7 @@ public class ProductServiceMapper {
 
     public static Product toEntity( CategoryService categoryService ,ProductDto productDto) {
         return Product.builder()
-                .id(productDto.getId())
+                .productId(productDto.getId())
                 .name(productDto.getName())
                 .description(productDto.getDescription())
                 .price(productDto.getPrice())
@@ -18,7 +18,7 @@ public class ProductServiceMapper {
 
     public static ProductDto toDto(Product product) {
         return ProductDto.builder()
-                .id(product.getId())
+                .id(product.getProductId())
                 .name(product.getName())
                 .description(product.getDescription())
                 .price(product.getPrice())

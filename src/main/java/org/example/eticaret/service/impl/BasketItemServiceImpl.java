@@ -15,16 +15,18 @@ public class BasketItemServiceImpl implements BasketItemService {
 
     @Override
     public BasketItem findBasketItemByBasketIdAndProductId(int basketId, int productId) {
-        return null;
+        return repository.findBasketItemByBasket_BasketIdAndProduct_ProductId(basketId,productId);
     }
 
     @Override
     public BasketItem save(BasketItem basketItem) {
-        return null;
+        return repository.save(basketItem);
     }
 
     @Override
     public void delete(int basketItemId) {
+
+        BasketItem basketItem=repository.findById(Long.valueOf(basketItemId)).get();
 
     }
 }
