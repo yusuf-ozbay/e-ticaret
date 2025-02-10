@@ -16,12 +16,11 @@ public class Basket {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long basketId;
+    private double totalPrice;
+    private int status;
 
     @OneToMany(mappedBy = "basket" ,cascade = CascadeType.ALL)
     private List<BasketItem> basketItemList;
-
-    private double totalPrice;
-    private int status;
 
     @OneToOne
     @JoinColumn(name = "customerId")

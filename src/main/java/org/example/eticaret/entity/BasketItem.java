@@ -13,6 +13,8 @@ public class BasketItem {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long basketItemId;
+    private int count;
+    private double basketItemTotalPrice;
 
     @ManyToOne
     @JoinColumn(name = "basketId")
@@ -22,8 +24,7 @@ public class BasketItem {
     @JoinColumn(name ="productId")
     private Product product;
 
-    private int count;
-    private double basketItemTotalPrice;
+
 
 
 }
