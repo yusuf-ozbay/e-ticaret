@@ -9,9 +9,9 @@ import lombok.*;
 @AllArgsConstructor
 public class CustomerResponse {
 
+    private int id;
     private int code;
     private String message;
-    private Long id;
     private String name;
     private String surname;
     private String email;

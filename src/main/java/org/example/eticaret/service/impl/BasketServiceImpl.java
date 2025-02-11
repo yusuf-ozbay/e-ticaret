@@ -28,7 +28,7 @@ public class BasketServiceImpl implements BasketService {
     @Override
     public BasketDto addProductToBasket(BasketDto basketDto) {
 
-        Basket basket=repository.findBasketByCustomer_CustomerIdAndStatusEquals(basketDto.getCustomerDto().getCustomerId(),BASKET_STATUS_NONE);
+        Basket basket=repository.findBasketByCustomer_CustomerIdAndStatusEquals(basketDto.getCustomer().getCustomerId(),BASKET_STATUS_NONE);
         if (basket != null){
             return sepetVarUrunEKle(basket,basketDto);
         }
@@ -49,7 +49,7 @@ public class BasketServiceImpl implements BasketService {
 
     private BasketDto sepetVarUrunEKle(Basket basket, BasketDto basketDto) {
         List<BasketItem> basketItemList=basket.getBasketItemList();
-        BasketItem basketItem=basketItemService.findBasketItemByBasketIdAndProductId(basket.getBasketId(),basketDto.getBasketItemDtoList().get(0).getProduct().getId());
+        BasketItem basketItem=basketItemService.findBasketItemByBasketIdAndProductId(basket.getBasketId(),basketDto.getBasketItemList().get(0).getProduct().getId());
         if (basketItem ==null){
             System.out.println("Eklenen ürün sepette yok");
             BasketItem newBasketItem=new BasketItem();
@@ -57,28 +57,29 @@ public class BasketServiceImpl implements BasketService {
             Product product=basketItem.getProduct();
             newBasketItem.setProduct(product);
             newBasketItem.setBasket(basket);
-            newBasketItem.setCount(basketDto.getBasketItemDtoList().get(0).getCount());
-            newBasketItem.setBasketItemTotalPrice(basketDto.getBasketItemDtoList().get(0).getCount()*product.getPrice());
+            newBasketItem.setCount(basketDto.getBasketItemList().get(0).getCount());
+            newBasketItem.setBasketItemTotalPrice(basketDto.getBasketItemList().get(0).getCount()*product.getPrice());
 
             basketItemList.add(newBasketItem);
 
         } else {
             System.out.println("Ekelenen ürün sepette var");
-            System.out.println("liste var mı"+basketDto.getBasketItemDtoList());
-            System.out.println("basketItemList boş mu"+basketDto.getBasketItemDtoList().get(0).getProduct().getName());
+            System.out.println("liste var mı"+basketDto.getBasketItemList());
+            System.out.println("basketItemList boş mu"+basketDto.getBasketItemList().get(0).getProduct().getName());
             System.out.println("BasketItem"+basketItem);
 
             //Eklenen ürün sepette var
             Product product=basketItem.getProduct();
             basketItem.setProduct(product);
-            basketItem.setCount(basketDto.getBasketItemDtoList().get(0).getCount());
+            basketItem.setCount(basketDto.getBasketItemList().get(0).getCount());
             basketItem.setBasket(basket);
-            basketItem.setBasketItemTotalPrice(basketDto.getBasketItemDtoList().get(0).getCount()*product.getPrice());
+            basketItem.setBasketItemTotalPrice(basketDto.getBasketItemList().get(0).getCount()*product.getPrice());
         }
 
         basket.setTotalPrice(calculateBasketAmount(basket.getBasketId()));
         basket.setBasketItemList(basketItemList);
-        return null;
+        repository.save(basket);
+        return BasketServiceMapper.toDto(basket);
     }
 
     private double calculateBasketAmount(int basketId) {
