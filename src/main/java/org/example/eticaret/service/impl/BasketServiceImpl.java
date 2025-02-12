@@ -28,6 +28,8 @@ public class BasketServiceImpl implements BasketService {
     @Override
     public BasketDto addProductToBasket(BasketDto basketDto) {
 
+
+        //müşteri ID ve sepet durumu ile aktif sepeti bulur
         Basket basket=repository.findBasketByCustomer_CustomerIdAndStatusEquals(basketDto.getCustomer().getCustomerId(),BASKET_STATUS_NONE);
         if (basket != null){
             return sepetVarUrunEKle(basket,basketDto);
@@ -48,13 +50,13 @@ public class BasketServiceImpl implements BasketService {
     }
 
     private BasketDto sepetVarUrunEKle(Basket basket, BasketDto basketDto) {
-        List<BasketItem> basketItemList=basket.getBasketItemList();
+        List<BasketItem> basketItemList=basket.getBasketItemList(); //sepette mevcut ürünlerin listesi
         BasketItem basketItem=basketItemService.findBasketItemByBasketIdAndProductId(basket.getBasketId(),basketDto.getBasketItemList().get(0).getProduct().getId());
-        if (basketItem ==null){
+        if (basketItem ==null){  //Eğer ürün sepette yoksa yeni bir ürün eklenir
             System.out.println("Eklenen ürün sepette yok");
             BasketItem newBasketItem=new BasketItem();
-            //Product product=findProductById(basketDto.getBasketItemDtoList().get(0).getProduct().getId());
-            Product product=basketItem.getProduct();
+            Product product=findProductById(basketDto.getBasketItemList().get(0).getProduct().getId());
+            //Product product=basketItem.getProduct();//ürünü sepette olmayan bir ürün olarak alıyor bunun içinde 58. satır gereklidir
             newBasketItem.setProduct(product);
             newBasketItem.setBasket(basket);
             newBasketItem.setCount(basketDto.getBasketItemList().get(0).getCount());
@@ -62,21 +64,21 @@ public class BasketServiceImpl implements BasketService {
 
             basketItemList.add(newBasketItem);
 
-        } else {
+        } else {  //ürün sepetete varsa miktar güncellenir
             System.out.println("Ekelenen ürün sepette var");
             System.out.println("liste var mı"+basketDto.getBasketItemList());
             System.out.println("basketItemList boş mu"+basketDto.getBasketItemList().get(0).getProduct().getName());
             System.out.println("BasketItem"+basketItem);
 
             //Eklenen ürün sepette var
-            Product product=basketItem.getProduct();
+            Product product=basketItem.getProduct();//mevcut ürünü alıyorum
             basketItem.setProduct(product);
             basketItem.setCount(basketDto.getBasketItemList().get(0).getCount());
             basketItem.setBasket(basket);
-            basketItem.setBasketItemTotalPrice(basketDto.getBasketItemList().get(0).getCount()*product.getPrice());
+            basketItem.setBasketItemTotalPrice(basketDto.getBasketItemList().get(0).getCount()*product.getPrice());//yeni toplam fiyat belirlenir
         }
 
-        basket.setTotalPrice(calculateBasketAmount(basket.getBasketId()));
+        basket.setTotalPrice(calculateBasketAmount(basket.getBasketId()));//sepet toplamı hesaplanır
         basket.setBasketItemList(basketItemList);
         repository.save(basket);
         return BasketServiceMapper.toDto(basket);
@@ -92,9 +94,9 @@ public class BasketServiceImpl implements BasketService {
     }
 
 
-//    private Product findProductById(int productId) {
-//        return BasketServiceMapper.toEntity(categoryService,productService.getProduct(productId));
-//    }
+    private Product findProductById(int productId) {
+        return BasketServiceMapper.toEntity(categoryService,productService.getProduct(productId));
+    }
 
 
 }
