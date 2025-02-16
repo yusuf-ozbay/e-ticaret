@@ -2,6 +2,7 @@ package org.example.eticaret.service.impl;
 
 import lombok.RequiredArgsConstructor;
 import org.example.eticaret.dto.BasketDto;
+import org.example.eticaret.dto.BasketItemDto;
 import org.example.eticaret.entity.Basket;
 import org.example.eticaret.entity.BasketItem;
 import org.example.eticaret.entity.Customer;
@@ -9,8 +10,10 @@ import org.example.eticaret.entity.Product;
 import org.example.eticaret.repository.BasketRepository;
 import org.example.eticaret.service.*;
 import org.example.eticaret.service.mapper.BasketServiceMapper;
+import org.example.eticaret.service.mapper.CustomerServiceMapper;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -32,11 +35,15 @@ public class BasketServiceImpl implements BasketService {
         Basket basket=repository.findBasketByCustomer_CustomerIdAndStatusEquals(basketDto.getCustomer().getCustomerId(),BASKET_STATUS_NONE);
         if (basket != null){
             return sepetVarUrunEKle(basket,basketDto);
+        }else {
+            return sepetYokYeniSepetOlustur(basketDto);
         }
 
 
         return null;
     }
+
+
 
     @Override
     public BasketDto getBasketByCustomerId(String customerId) {
@@ -97,6 +104,32 @@ public class BasketServiceImpl implements BasketService {
 
     private Product findProductById(int productId) {
         return BasketServiceMapper.toEntity(categoryService,productService.getProduct(productId));
+    }
+
+    private BasketDto sepetYokYeniSepetOlustur(BasketDto basketDto) {
+        Basket basket=new Basket();
+        Customer customer=findCustomerById(String.valueOf(basketDto.getCustomer().getCustomerId()));
+        basket.setCustomer(customer);
+        basket.setStatus(BASKET_STATUS_NONE);
+        List<BasketItem> basketItemList=new ArrayList<>();
+        for(BasketItemDto basketItemDto:basketDto.getBasketItemList()){
+            BasketItem basketItem=new BasketItem();
+            basketItem.setBasketItemTotalPrice(basketItemDto.getCount());
+            basketItem.setProduct(findProductById(basketItemDto.getProduct().getId()));
+            basketItem.setBasket(basket);
+            basketItem.setCount(basketItemDto.getCount());
+            basketItemList.add(basketItem);
+
+        }
+        basket.setBasketItemList(basketItemList);
+        basket.setTotalPrice(basket.getBasketItemList().get(0).getCount()*basketItemList.get(0).getProduct().getPrice());
+
+        return BasketServiceMapper.toDto(repository.save(basket));
+    }
+
+
+    public Customer findCustomerById(String id) {
+        return CustomerServiceMapper.toEntity(customerService.getCustomer(Long.valueOf(id)));
     }
 
 
