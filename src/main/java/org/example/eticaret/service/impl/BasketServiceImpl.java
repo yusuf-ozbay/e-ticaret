@@ -4,12 +4,10 @@ import lombok.RequiredArgsConstructor;
 import org.example.eticaret.dto.BasketDto;
 import org.example.eticaret.entity.Basket;
 import org.example.eticaret.entity.BasketItem;
+import org.example.eticaret.entity.Customer;
 import org.example.eticaret.entity.Product;
 import org.example.eticaret.repository.BasketRepository;
-import org.example.eticaret.service.BasketItemService;
-import org.example.eticaret.service.BasketService;
-import org.example.eticaret.service.CategoryService;
-import org.example.eticaret.service.ProductService;
+import org.example.eticaret.service.*;
 import org.example.eticaret.service.mapper.BasketServiceMapper;
 import org.springframework.stereotype.Service;
 
@@ -22,6 +20,7 @@ public class BasketServiceImpl implements BasketService {
      private final BasketItemService basketItemService;
      private final ProductService productService;
      private final CategoryService categoryService;
+     private final CustomerService customerService;
 
      public final int BASKET_STATUS_NONE=0;
 
@@ -41,12 +40,14 @@ public class BasketServiceImpl implements BasketService {
 
     @Override
     public BasketDto getBasketByCustomerId(String customerId) {
-        return null;
+        Basket basket=repository.findBasketByCustomer_CustomerIdAndStatusEquals(Integer.parseInt(customerId),BASKET_STATUS_NONE);
+        return BasketServiceMapper.toDto(basket);
     }
+
 
     @Override
     public void removeProductFromBasket(String basketItemId) {
-
+        basketItemService.delete(Integer.parseInt(basketItemId));
     }
 
     private BasketDto sepetVarUrunEKle(Basket basket, BasketDto basketDto) {
