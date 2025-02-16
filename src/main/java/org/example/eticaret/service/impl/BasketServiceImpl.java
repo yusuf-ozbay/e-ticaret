@@ -27,6 +27,14 @@ public class BasketServiceImpl implements BasketService {
 
      public final int BASKET_STATUS_NONE=0;
 
+      /*
+    1-) basket yok direkt ürünü ekle
+    2-) Basket var
+           Eklenen ürün sepette varmı
+                1-) varsa quantity artır total amount artır
+                2-) yoksa yeni ürünü ekle
+     */
+
     @Override
     public BasketDto addProductToBasket(BasketDto basketDto) {
 
@@ -39,8 +47,6 @@ public class BasketServiceImpl implements BasketService {
             return sepetYokYeniSepetOlustur(basketDto);
         }
 
-
-        return null;
     }
 
 
