@@ -11,9 +11,9 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class BasketResponse {
-    private Long basketId;
+    private int basketId;
     private double totalPrice;
     private int status;
-    private Long customerId;
+    private int customerId;
     private List<BasketItemDto> basketItemDtoList;
 }

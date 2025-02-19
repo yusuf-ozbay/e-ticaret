@@ -17,5 +17,7 @@ public class ProductDto {
     private int stock;
 
 
-
+    public ProductDto(int productId) {
+        this.id = productId;
+    }
 }
